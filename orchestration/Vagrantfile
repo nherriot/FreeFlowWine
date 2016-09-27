@@ -9,13 +9,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Disable the new default behavior introduced in Vagrant 1.7, to
   # ensure that all Vagrant machines will use the same SSH key pair.
   # See https://github.com/mitchellh/vagrant/issues/5005
-  #config.ssh.insert_key = false
+  config.ssh.insert_key = false
 
   #config.vm.box = "ubuntu/trusty64"
   #config.vm.network "forwarded_port", guest: 80, host: 8080
   # Synching an alfacms folder within the host relative to the project route
   # and the default user on the guest machine
   config.vm.synced_folder "ffw-data/", "/home/vagrant/ffw-data"
+
+  # VM for Free Flow Wines
+  config.vm.define "ffw-dev-vm" do |app|
+    app.vm.hostname = "freeFlowWines-Dev-VM"                 # Specify a host name for the VM so that Ansible can target
+	app.vm.box = "ubuntu/trusty64"                            # This uses Ubuntu Release: 14.04 Codename: trusty
+	app.vm.network :private_network, ip: "192.168.60.10"      # IP address to talk to our local machines during test
+  end
+
+  # VM for Free Flow Wines 2
+  config.vm.define "ffw-prod-vm" do |app|
+    app.vm.hostname = "freeFlowWines-Prod-VM"            # Specify a host name for the VM so that Ansible can target
+	app.vm.box = "ubuntu/trusty64"                            # This uses Ubuntu Release: 14.04 Codename: trusty
+	app.vm.network :private_network, ip: "192.168.60.20"      # IP address to talk to our local machines during test
+  end
 
   # VM for Free Flow Wines
   config.vm.define "ffw-vm1" do |app|
