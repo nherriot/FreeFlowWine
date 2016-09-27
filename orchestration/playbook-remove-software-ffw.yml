@@ -1,0 +1,88 @@
+---
+- hosts: ffw-test
+  become: true
+
+  vars:
+    dbname: ffw_db_17022016                                   # this is used to setup the database name in postgres
+    dbuser: ffw_db_user                                       # this is used to setup the database user in postres
+    dbpassword: IPq52llj                                      # this is used to setup the database password TODO put this in a keepass file
+    environment_path: /home/ffw_cms/ffwprojectenv             # this is the virtual environment project folder
+    environment_name : env_projectname
+    project_root: ~/FreeFlowWines
+    project_name: ffw_project
+    project_repo: https://github.com/nherriot/FreeFlowWines.git
+
+
+  pre_tasks:
+
+    ##################################################
+    # The simplest task - check we can ping our server
+    - name: Check that the server's alive!
+      action: ping
+    # Update the machines before installing any software
+    - name: Update machines
+      apt: update_cache=yes cache_valid_time=3600
+
+
+  tasks:
+
+    # Stop Nginx process and remove from memory
+    - name: Stop Nginx to remove from memory
+      become_user: root
+      service: name=nginx state=stopped enabled=no
+
+    # Stop the gunicorn wsgi server and remove from memory.
+    - name: Stop Gunicorn WSGI Server
+      become_user: root
+      service: name=gunicorn state=stopped enabled=no
+
+
+    # Drop the postgres database before removing software components
+    - name: Drop the Postgres database
+      become_user: postgres
+      postgresql_db: name={{dbname}} state=absent
+
+
+    # Remove required software components from our build server
+    - name: Remove Sofware2 ( python-pip, python-dev, libpq-dev, postgresql, postgresql-contrib psycopg2 and nginx )
+      apt: name={{item}} state=absent
+      with_items:
+        - python-pip
+        - python-dev
+        - python-setuptools
+        - python-tk
+        - liblcms2-dev
+        - libfreetype6-dev
+        - libjpeg8-dev
+        - libpq-dev
+        - libtiff5-dev
+        - libwebp-dev
+        - postgresql
+        - postgresql-contrib
+        - nginx
+        - python-psycopg2
+        - git
+        - tcl8.6-dev
+        - tk8.6-dev
+        - zlib1g-dev
+
+    - name: Remove Symbolic Links to ffwecommerce
+      become_user: root
+      file: path=/etc/nginx/sites-enabled/ffwecommerce state=absent force=true
+
+    - name: Remove ffwecommerce from Nginx Config Dir 'sites-available'
+      become_user: root
+      file: path=/etc/nginx/sites-available/ffwecommerce state=absent
+
+    - name: Remove gunicorn config file gunicorn.conf from etc/init directory
+      become_user: root
+      file: path=/etc/init/gunicorn.conf state=absent
+
+    - name: Remove Directory ffwprojectenv
+      become_user: ffw_cms
+      file: path=~/{{ item }} state=absent
+      with_items:
+        - ffwprojectenv
+        - FreeFlowWines
+
+

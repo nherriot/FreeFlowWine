@@ -1,0 +1,16 @@
+---
+- hosts: ffw-test
+  become: true
+
+  tasks:
+    # Check NTP Is running on the ffw-test server
+    - name: Ensure NTP (for time synchronization) is installed
+      apt: name={{item}} state=present
+      with_items:
+        - ntp
+        - nginx
+
+    # Check NTP is running on the ffw-test server
+    - name: Ensure NTP is running=ntpd state=started enabled=yes
+      service: name=ntp state=started enabled=yes
+

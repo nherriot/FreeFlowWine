@@ -1,0 +1,51 @@
+[example]
+188.166.145.32
+
+[example2]
+127.0.0.1
+
+# Application servers
+[app]
+192.168.60.4
+192.168.60.5
+
+# Database server
+[db]
+192.168.60.6
+
+# Free Flow Wines Development Server
+[ffw-dev]
+192.168.60.10
+
+# Free Flow Wines Production Server
+[ffw-prod]
+192.168.60.20
+
+# Free Flow Wines Digital Ocean Test Server
+[ffw-test]
+178.62.29.243
+
+
+#Group 'multi' with all servers
+[multi:children]
+app
+db
+
+#Group 'ffw-all' with all free flow wine servers
+[ffw-all:children]
+ffw-dev
+ffw-prod
+ffw-test
+
+# Variables that will be applied to all free flow wines servers
+[ffw-all:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+
+
+# Variables that will be applied to all servers
+[multi:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+
+

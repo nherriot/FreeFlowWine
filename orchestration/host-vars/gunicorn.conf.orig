@@ -1,0 +1,11 @@
+description "Gunicorn application server handling free flow wines project"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+setuid ffw_cms
+setgid www-data
+chdir /home/ffw_cms/ffwproject
+
+exec ffwprojectenv/bin/gunicorn --workers 3 --bind unix:/home/ffw_cms/FreeFlowWines/ffwproject.sock ffwecommerce.wsgi:application
