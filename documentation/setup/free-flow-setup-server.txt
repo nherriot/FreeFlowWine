@@ -1,0 +1,393 @@
+# This text document explains the setup of the Free-Flow-Wines 
+#
+# Author: Nicholas Herriot
+# Date: 17/02/2016
+# Version: 1
+#
+# Droplet created 17/01/2016
+# OS Linux Ubuntu 14.04 LTR (5 years support)
+# 1/2 Gig Ram
+# 20 Gig SSD
+# Deployed London.
+# SSH Keys 1) Asus 2) Server
+#
+
+Connectivity of server
+------------------------------------------------------------------------
+
+Public IP Address:
+188.166.145.32
+
+Gateway:
+188.166.144.1
+
+Netmask:
+255.255.240.0
+
+Create 2 users. One with 'sudo' privillages
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+
+Users:
+    ffw_admin
+    ffw_cms
+
+(Please refer to the keypass file for passwords of the machine in the config directory.)
+
+1. Create a different admin user and cms user
+/>  useradd -m ffw_admin
+/>  passwd  ffw_admin
+/>  useradd -m ffw_cms
+/>  passwd  ffw_cms
+
+2. Add users to wheel group for sudo access
+/>  su root
+/>  usermod -aG wheel ffw_admin
+/>  usermod -aG wheel ffw_cms
+/>  exit
+
+3. Make the admin user have sudo privillages and allow users to have a good bash shell.
+/> su root
+/> chsh -s /bin/bash ffw_admin
+/> chsh -s /bin/bash ffw_cms
+/> sudo /usr/sbin/visudo
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL 
+ffw_admin	ALL=(ALL:ALL) ALL
+
+
+Initial Setup Of Packages
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+# We are going to use nginx, gunicor and django for this server. It's much faster
+/>  sudo apt-get update
+/>  sudo apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib nginx
+
+
+
+Setup Of Postgres DB
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+1) Switch to our postgres user on the machine. You need to use the 'password' of the admin user.
+$ sudo su - postgres
+[sudo] password for ffw_admin: 
+
+2) Now go onto the sql command prompt to setup the database
+postgres@ubuntu-14lts-FreeFlowWine:~$ psql
+psql (9.3.11)
+Type "help" for help.
+
+3) Create a database with the name of what client its for, what it does and todays date.
+postgres=# CREATE DATABASE ffw_db_17022016;
+CREATE DATABASE
+
+4) Create a user called 'ffw_db_user' and a secure password. Then grant all privillages to
+	the database for that user.
+	
+postgres=# CREATE USER ffw_db_user WITH PASSWORD 'IPq52llj';
+CREATE ROLE
+postgres=# GRANT ALL PRIVILEGES ON DATABASE ffw_db_17022016 to ffw_db_user;
+GRANT
+
+5) Quite postgres command prompt and from the postgres user
+
+psql/>  \q
+$ exit
+
+
+Setup Of Django Gunicorn
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+# This will setup our django environment and most of the required libraries, db integration libs, 
+# web server and virtual environment
+
+1) Login as the admin user and install virtualenv
+
+/> ssh alfa_adm@188.166.145.32
+/> sudo pip install virtualenv
+
+2) Switch to our django user and setup django and your virtual environmet
+
+/> su ffw_cms
+/> mkdir ffwproject
+/> cd ffwproject
+/> virtualenv ffwprojectenv
+/> cd ffwprojectenv
+/> source ~/ffwproject/ffwprojectenv/bin/activate
+/> pip install django gunicorn psycopg2
+/> 
+/> django-admin.py startproject ffwecommerce .			# DON'T FORGET THE 'DOT' AT THE END OF THIS COMMAND
+/> cd ffwecommerce/ffwecommerce/
+
+3) Open up your settings.py file and configure your database to read from the postgres instance
+
+/> nano settings.py
+
+# You will notice your settings.py file will have the database configured like:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# Change to this:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ffw_db_17022016',					# This is our database name
+        'USER': 'ffw_db_user',						# This is the user of our database
+        'PASSWORD': 'IPq52llj',						# This is the password of the database user
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+# Add your static root so gunicorn can find your images and docs etc.. Put this at the bottom of the file
+
+STATIC_URL = os.path.join(BASE_DIR, "static/")
+
+
+
+4) Setup your first super user for django and migrate your database. Even though there is nothing to migrate django will add tables that it uses to manage stuff. We will also collect
+static files and run the test django server to make sure everything works.
+
+/> cd ..
+/> python manage.py makemigrations
+No changes detected
+
+/> python manage.py showmigrations
+admin
+ [ ] 0001_initial
+ [ ] 0002_logentry_remove_auto_add
+auth
+ [ ] 0001_initial
+ [ ] 0002_alter_permission_name_max_length
+ [ ] 0003_alter_user_email_max_length
+ [ ] 0004_alter_user_username_opts
+ [ ] 0005_alter_user_last_login_null
+ [ ] 0006_require_contenttypes_0002
+ [ ] 0007_alter_validators_add_error_messages
+contenttypes
+ [ ] 0001_initial
+ [ ] 0002_remove_content_type_name
+sessions
+ [ ] 0001_initial
+
+/> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, contenttypes, auth, sessions
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying sessions.0001_initial... OK
+
+/> python manage.py showmigrations
+admin
+ [X] 0001_initial
+ [X] 0002_logentry_remove_auto_add
+auth
+ [X] 0001_initial
+ [X] 0002_alter_permission_name_max_length
+ [X] 0003_alter_user_email_max_length
+ [X] 0004_alter_user_username_opts
+ [X] 0005_alter_user_last_login_null
+ [X] 0006_require_contenttypes_0002
+ [X] 0007_alter_validators_add_error_messages
+contenttypes
+ [X] 0001_initial
+ [X] 0002_remove_content_type_name
+sessions
+ [X] 0001_initial
+
+
+/>  python manage.py  createsuperuser
+Username (leave blank to use 'ffw_cms'): 
+Email address: nicholas.herriot@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+
+5) Run the service and do a basic test that everything works at this stage
+
+/>  python manage.py runserver 0.0.0.0:8000
+
+# Go to your browser and make sure you can see the basic django page.
+# So in your browser go to here:
+http://188.166.145.32:8000
+
+# Check that admin works, so login as ffw_cms. (Get the password from the keepass file)
+http://188.166.145.32:8000/admin/
+
+
+
+5) Now to test out that 'GUNICORN' can find our app and run it we can do a quick test. 
+While we are still using a virtual environment navigate to this directory:
+
+/> cd ~/FreeFlowWines/ffw_project/
+
+# From this directory we can quickly run gunicorn. You can't use port 80000 this time as
+# gunicorn only allows between port 0 and 65535. To manually and bind to our IP do:
+
+/> gunicorn --bind 0.0.0.0:65500 ffwecommerce.wsgi:application
+
+# Go to the URL: http://188.166.145.32:65500/ You can test out the applicatoin here.
+# Once you have finished your testing close down the server and stop the virtual environment.
+# We passed Gunicorn a module by specifying the relative directory path to Django's wsgi.py file,
+# which is the entry point to our application, using Python's module syntax. Inside of this
+# file, a function called application is defined, which is used to communicate with the 
+# application.
+
+/> ctrl+c
+/> deactivate
+
+
+
+Configuring Our Startup File For Gunicorn Web Server 'Upstart' File
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+
+1) Go to the /etc/init direcotry and create a file called gunicorn.conf and save the following 
+information in the file:
+
+/> su ffw_admin
+/> cd /etc/init
+/> sudo nano gunicorn.conf
+
+
+*********************************************************************************************
+
+
+description "Gunicorn application server handling free flow wines project"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+setuid ffw_cms
+setgid www-data
+chdir /home/ffw_cms/FreeFlowWines/ffw_project
+
+exec /home/ffw_cms/ffwprojectenv/bin/gunicorn --workers 3 --bind unix:/home/ffw_cms/FreeFlowWines/ffw_project/ffwproject.sock ffw_apps.wsgi:application
+
+
+*********************************************************************************************
+# This tells us where to run the executable from in our virtual env, with 3 workers. We next
+# Connect it to a unix file socket 'ffwproject.sock' and use the wsgi.py script as our start point
+# to the application.
+
+
+2) Now start gunicorn service.
+
+/> sudo service gunicorn start
+
+# To check that gunicorn is running as a service you can get status info by:
+
+/> sudo service gunicorn status
+	[sudo] password for ffw_admin: 
+	gunicorn start/running, process 1358
+
+# Since this is for a ubuntu Linux system we need to check 'upstart' to check our logs so go here:
+/> cd /var/log/upstart/
+/> sudo tail -f -n200 gunicorn.log
+[2016-03-09 15:42:17 +0000] [1358] [INFO] Starting gunicorn 19.4.5
+[2016-03-09 15:42:17 +0000] [1358] [INFO] Listening at: unix:/home/ffw_cms/ffwproject/ffwproject.sock (1358)
+[2016-03-09 15:42:17 +0000] [1358] [INFO] Using worker: sync
+[2016-03-09 15:42:17 +0000] [1364] [INFO] Booting worker with pid: 1364
+[2016-03-09 15:42:17 +0000] [1365] [INFO] Booting worker with pid: 1365
+[2016-03-09 15:42:17 +0000] [1366] [INFO] Booting worker with pid: 1366
+
+
+
+Ceate and Configure Nginx to Proxy Pass to Gunicorn
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+1) Now that Gunicorn is set up, we need to configure Nginx to pass traffic to the process.
+Start by creating and opening a new server block in Nginx's sites-available directory:
+
+
+/> cd /etc/nginx/sites-available
+/> sudo nano ffwecommerce
+
+# When you create this file use the following template to test it works:
+
+
+*********************************************************************************************
+server {
+    listen 8001;
+    server_name 188.166.145.32;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/ffw_cms/ffwproject;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ffw_cms/ffwproject/ffwproject.sock;
+    }
+
+}
+*********************************************************************************************
+
+# This tells nginx to:
+# 1) don't look for favicon and log as error.
+# 2) static files are accessed from /home/ffw_cms/ffwproject
+# 3) pass proxy parameters through to a unix socket at /home/ffw_cms/ffwproject/ffwproject.sock
+
+# Get more info here: 
+https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-14-04
+
+
+2) Now link the sites-available dir file you just created to the sites-enabled directory to get your file
+active.
+
+/> sudo ln -s /etc/nginx/sites-available/ffwecommerce /etc/nginx/sites-enabled
+
+
+3) Restart and test the file for nginx.
+
+/> sudo nginx -t
+/> sudo service nginx restart
+
+4) To find logs or look at access logs do this:
+# Error logs:
+/> cd /var/log/nginx
+/> tail -f -n200 error.log
+
+
+# Access logs:
+/> cd /var/log/nginx
+/> tail -f -n200  access.log
+
+
+5) Check website is running on:
+
+/> http://188.166.145.32:8001
+/> http://188.166.145.32:8001/admin
+
+
+
+
+
+
+

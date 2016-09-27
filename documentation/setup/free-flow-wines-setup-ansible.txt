@@ -1,0 +1,66 @@
+# This text document explains the setup of Ansible for using with Free Flow Wines 
+#
+# Author: Nicholas Herriot
+# Date: 15/04/2016
+# Version: 1
+#
+# Droplet created 17/01/2016
+# OS Linux Ubuntu 14.04 LTR (5 years support)
+# 1/2 Gig Ram
+# 20 Gig SSD
+# Deployed London.
+# SSH Keys 1) Asus 2) Server
+#
+
+
+
+Creating SSH Path For Ansible To Free Flow Wines
+------------------------------------------------------------------------
+# Ansible will do all the heavy lifting to setup your machine but it needs
+# to be able to connect to the server. For that we need to use SSH keys. In
+# other words a public/private key exchange between machines. So the steps 
+# will be:
+# 1) Ansible connects with root.
+# 2) Ansible creates new users.
+# 3) Ansible gives users sudo access.
+# 4) Ansible creates pub/pirv keys.
+# 5) Ansible stops route access and restarts SSH.
+
+# Further connections should be secure
+
+
+
+Install and Setup Ansible on Local Machine
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+/> sudo pip install ansible				# This installs ansible via python pip
+/> sudo apt-get install sshpass			# This installs an application that lets you
+										# pass passwords via programs to SSH
+
+/> sudo cp ~/FreeFlowWines/configuration/ansible/hosts  /etc/ansible/hosts 
+/> sudo cp ~/FreeFlowWines/configuration/ansible/ansible.cfg  /etc/ansible/ansible.cfg
+
+# This installs ansible on your local machine and setsup the 'hosts' file for ansible to read. The
+# hosts file contains a list of servers and IP's that we use for our systems. The config file contains
+# settings to make sure ansible does not try and use key exchange as default for initial install
+
+
+Ansible Connect With Root
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+# We will connect ansible to our machine in this instance it will be 'dilshadapp' on digital oceans
+# with the IP address of: 178.62.29.243
+# This document will explain now what the anisble playbook1.yml does. This file is in the folder:
+# /FreeFlowWines/configuration/playbooks/playbook1.yml
+
+All you need to do now to complete
+
+# This setup is:
+
+/> ansible-playbook setup.yml
+/> ansible-playbook playbookffw.yml
+
+
+
+
