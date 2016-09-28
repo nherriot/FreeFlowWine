@@ -10,6 +10,10 @@ a.navbar-brand.title {
 	color: #fff;
 }
 
+ul.nav a.login , a.register {
+	display: inline;
+}
+
 .content h1, div.separator.line-separator, h5 {
 	color: #990000;
 }

@@ -10,7 +10,7 @@
                     <span class="icon-bar bar2"></span>
                     <span class="icon-bar bar3"></span>
                     </button>
-                    <a target="_blank" href="http://www.ffw.com" class="navbar-brand title">
+                    <a target="_blank" href="/" class="navbar-brand title">
                     Free Flow Wine
                     </a>
                 </div>
@@ -35,7 +35,21 @@
 
                         </li>
                         <li>
+
                             <a href="" data-scroll="false" data-id="#setting">
+
+                            <a href="" data-scroll="false" class="login">
+                            Login
+                                <i class="fa fa-user"></i>
+                            </a>
+                            |
+                            <a href="">Register
+                                <i class="fa fa-register" class="register"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'cms:admin_page' %}" data-scroll="false" data-id="#setting">
+
                             Setting
                             </a>
                         </li>
