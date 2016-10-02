@@ -1,5 +1,12 @@
 /* NAVBAR */
 
+/*ffw Logo*/
+
+img.ffw-logo.img-responsive {
+	margin-top: -30px;
+	color: #fff;
+}
+
 nav.navbar.navbar-default.navbar-fixed-top.navbar-burger {
 	background-color: none;
 	background: #330000;
@@ -10,9 +17,38 @@ a.navbar-brand.title {
 	color: #fff;
 }
 
-ul.nav a.login , a.register {
-	display: inline;
+ a.login ,  a.register {
+	display: inline-block;
 }
+/*#########################################################*/
+/* Login templates */
+label.control-label.requiredField/*, h3.login*/  {
+	clear: both;
+	float: left;
+}
+
+p.label {
+	float: left;
+	display: inline-block;
+	font-size: 16px;
+}
+
+a.forget-password, a.not-register {
+	
+	color: #000066;
+	margin-left: 10px;
+}
+a.forget-password:hover, a.not-register:hover {
+	text-decoration: underline;
+}
+
+/* Register form */
+p#hint_id_username.help-block {
+	display: none;
+}
+
+
+/*#########################################################*/
 
 .content h1, div.separator.line-separator, h5 {
 	color: #990000;
@@ -24,4 +60,17 @@ ul.nav a.login , a.register {
 	background-color: none;
 	background: #330000;
 	height: 140px;
+}
+
+
+/*#############################################################*/
+/*Dashboard templates*/
+
+div.dashboard-logo {
+	background-color: none;
+	background: #330000;
+}
+
+div.dashboard-logo img {
+	margin-left: 30px;
 }

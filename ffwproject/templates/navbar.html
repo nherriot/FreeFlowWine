@@ -1,3 +1,4 @@
+{% load staticfiles %}
 
 
  <nav class="navbar navbar-default navbar-transparent navbar-fixed-top navbar-burger" role="navigation">
@@ -10,8 +11,9 @@
                     <span class="icon-bar bar2"></span>
                     <span class="icon-bar bar3"></span>
                     </button>
-                    <a target="_blank" href="/" class="navbar-brand title">
-                    Free Flow Wine
+                    <a href="/" class="navbar-brand title">
+                        <img src="{% static 'ffw/images/freeflowwinelogo_negative.png' %}" class='ffw-logo img-responsive'>
+                    <!-- Free Flow Wines -->
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" >
@@ -23,7 +25,7 @@
                             <a href="https://twitter.com/FreeFlowWine" title="Free Flow Wine" target="_blank">
                                 <i class="fa fa-twitter"></i>
                             </a>
-                            <a href="https://plus.google.com/u/0/s/free%20flow%20wine" title="Free Flow Wine" target="_blank">
+                            <a href="https://plus.google.com/u/0/s/free%20flow%20wine" title="Free Flow Wine" target="">
                                 <i class="fa fa-google-plus-square"></i>
                             </a>
                             <a href="https://www.linkedin.com/company/free-flow-wines?trk=company_logo" title="Free Flow Wine" target="_blank">
@@ -34,25 +36,26 @@
                             </a>
 
                         </li>
+                        {% if user.is_staff and user.is_authenticated %}
+
+                        <li><a href="{% url 'auth_logout' %}?next=/accounts/logout/">Logout</a></li>
                         <li>
-
-                            <a href="" data-scroll="false" data-id="#setting">
-
-                            <a href="" data-scroll="false" class="login">
+                            <a href="{% url 'cms:admin_page' %}" target="_blank" data-id="#setting">Setting</a>
+                        </li>
+                        
+                        {% else %}
+                        <li>
+                            <a href="{% url 'auth_login' %}" class="login">
                             Login
                                 <i class="fa fa-user"></i>
                             </a>
-                            |
-                            <a href="">Register
-                                <i class="fa fa-register" class="register"></i>
-                            </a>
                         </li>
-                        <li>
-                            <a href="{% url 'cms:admin_page' %}" data-scroll="false" data-id="#setting">
-
-                            Setting
+                        <!-- <li>
+                            <a href="{% url 'registration_register' %}" class="register">Register
+                                <i class="fa fa-registered"></i>
                             </a>
-                        </li>
+                        </li> -->
+                        {% endif %}
                         <li>
                             <a href="" data-scroll="true" data-id="#whoWeAre">
                             About

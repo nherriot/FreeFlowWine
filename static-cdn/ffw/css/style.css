@@ -10,6 +10,21 @@ a.navbar-brand.title {
 	color: #fff;
 }
 
+ a.login ,  a.register {
+	display: inline-block;
+}
+/*#########################################################*/
+/* Login templates */
+label.control-label.requiredField, h3.login  {
+	clear: both;
+	float: left;
+}
+
+
+
+
+/*#########################################################*/
+
 .content h1, div.separator.line-separator, h5 {
 	color: #990000;
 }
