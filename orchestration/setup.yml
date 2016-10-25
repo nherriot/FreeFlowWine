@@ -1,5 +1,5 @@
 ---
-- hosts: ffw-test ffw-dev-vb
+- hosts: ffw-prod ffw-vm1
   user: root
   vars: 
     adminuser: 'ffw_admin'

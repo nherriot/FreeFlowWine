@@ -1,9 +1,9 @@
 ---
-- hosts: ffw-test
+- hosts: ffw-prod
   become: true
 
   tasks:
-    # Check NTP Is running on the ffw-test server
+    # Check NTP Is running on the ffw-product server
     - name: Ensure NTP (for time synchronization) is installed
       apt: name={{item}} state=present
       with_items:

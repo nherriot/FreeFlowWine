@@ -15,34 +15,54 @@
 [db]
 192.168.60.6
 
-# Free Flow Wines Development Server
+# Free Flow Wines Development Server VM
 [ffw-dev-vm]
 192.168.60.10
 
-# Free Flow Wines Production Server
+# Free Flow Wines Production Server VM
 [ffw-prod-vm]
 192.168.60.20
 
-# Free Flow Wines VM1
+# Free Flow Wines VM 1
 [ffw-vm1]
 192.168.60.110
 
-# Free Flow Wines VM2
+# Free Flow Wines VM 2
 [ffw-vm2]
 192.168.60.210
 
 
+# Free Flow Wines Digital Ocean Production Server
+# This machine is setup from N.Herriot account and running Ubuntu 14.5 LTR 27th Sep 2016
+[ffw-prod]
+138.68.131.184
+
 # Free Flow Wines Digital Ocean Test Server
+# This machine is setup from Dilshad Abdulla's account and running Ubuntu 14.3 LTR
 [ffw-test]
 178.62.29.243
+
 
 #Group 'ffw-all' with all free flow wine servers
 [ffw-all:children]
 ffw-dev-vm
 ffw-prod-vm
+ffw-prod
 ffw-test
 ffw-vm1
 ffw-vm2
+
+#Group 'ffw-all-vm' with all free flow wine servers that are virtual machines
+[ffw-all-vm:children]
+ffw-dev-vm
+ffw-prod-vm
+ffw-vm1
+ffw-vm2
+
+#Group 'ffw-all-vm' with all free flow wine servers that are droplets
+[ffw-all-drop:children]
+ffw-prod
+ffw-test
 
 # Variables that will be applied to all free flow wines servers
 [ffw-all:vars]
