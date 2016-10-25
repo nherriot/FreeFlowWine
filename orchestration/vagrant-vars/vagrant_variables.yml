@@ -1,3 +1,14 @@
+# Local variables to setup the default machine for the first time. This is used in setup.yml
+adminuser: 'ffw_admin'
+adminpassword: 'gyACXJaQZC2L'
+cmsuser: 'ffw_cms'
+cmspassword: 'MyVroGJPMdP2'
+
+# Used to setup private keys onto a machine and to change SSH port if needed
+ubuntu_common_deploy_public_keys: ~/.ssh/id_rsa.pub                               # This tells our playbook files where to get your ssh public key from
+ubuntu_common_ssh_port: 22                                                        # If we configure this port our setup.yml file will configure ssh on a different port
+
+
 # Elasticsearch Ansible Variables
 
 elasticsearch_version: 1.7.5

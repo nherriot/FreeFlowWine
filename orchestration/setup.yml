@@ -1,9 +1,19 @@
 ---
-- hosts: ffw-prod ffw-vm1
+- hosts: ffw-test
   user: root
   vars: 
-    adminuser: 'ffw_admin'
-    adminpassword: 'gyACXJaQZC2L'
+    #adminuser: 'ffw_admin'
+    #adminpassword: 'gyACXJaQZC2L'
+
+  vars_files:
+  - vagrant-vars/vagrant_variables.yml
+
+
+  handlers:
+  - name: Restart ssh
+    service: name=ssh state=restarted
+
+
   tasks:
   # Setup to users on the ffw-test server
   - name: Setup | create user ffw_admin and ffw_cms
@@ -11,29 +21,30 @@
     become: true
     become_method: sudo
     with_items:
-      - ffw_admin
-      - ffw_cms
- 
+      - '{{adminuser}}'
+      - '{{cmsuser}}'
+
   # Setup passwords for both user 'ffw_admin' and 'ffw_user' on our ffw-test server
   - name: Setup | set passwords for ffw_admin and ffw_user
     shell: usermod -p $(echo '{{ item.createpassword }}' | openssl passwd -1 -stdin) {{ item.createuser }}
     become: true
     become_method: sudo
     with_items:
-      - { createpassword: 'gyACXJaQZC2L', createuser: 'ffw_admin' }
-      - { createpassword: 'MyVroGJPMdP2', createuser: 'ffw_cms' }
-    
+      - { createpassword: '{{adminpassword}}', createuser: '{{adminuser}}' }
+      - { createpassword: '{{cmspassword}}', createuser: '{{cmsuser}}' }
+
+
   # Setup an public key for this remote machine by copying the public key of this machine to the remote machine.
   # We need to have our id_rsa.pub file within the directory of this setup.yml file.
   - name: Setup | authorized key upload
     authorized_key: user={{ item }}
-      key="{{ lookup('file', 'id_rsa.pub') }}"
+      key="{{ lookup('file', ubuntu_common_deploy_public_keys )}}"
       path='/home/{{ item }}/.ssh/authorized_keys'
       manage_dir=no
     become: true
     with_items:
-      - ffw_admin
-      - ffw_cms
+      - '{{adminuser}}'
+      - '{{cmsuser}}'
 
   # Add our admin user to the 'sudo' users file.
   - name: Sudoers | update sudoers file and validate
@@ -43,4 +54,14 @@
       regexp='{{ adminuser }} ALL=(ALL) NOPASSWD: ALL'
       state=present"
     become: true
+
+  # We need to stop a user loging in with root access via SSH. Someone could brute force attack our server on our root
+  # accont
+#  - name: Disallow root SSH access
+#    lineinfile: dest=/etc/ssh/sshd_config
+#              regexp="^PermitRootLogin"
+#              line="PermitRootLogin no"
+#              state=present
+#    notify: Restart ssh
+
 
