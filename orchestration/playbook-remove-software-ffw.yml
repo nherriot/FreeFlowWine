@@ -9,9 +9,6 @@
   vars:
     ansible_ssh_user: '{{adminuser}}'                         # We need to override this to use the admin user as
                                                               # the root account will be locked by this point
-    dbname: ffw_db_17022016                                   # this is used to setup the database name in postgres
-    dbuser: ffw_db_user                                       # this is used to setup the database user in postres
-    dbpassword: IPq52llj                                      # this is used to setup the database password TODO put this in a keepass file
     environment_path: /home/ffw_cms/ffwprojectenv             # this is the virtual environment project folder
     environment_name : env_projectname
     project_root: ~/FreeFlowWines
@@ -32,21 +29,38 @@
 
   tasks:
 
+    # Check that Gunicorn is installed
+    - name: Check if Service Nginx Exists
+      stat: path=/etc/init.d/nginx
+      register: service_status
+
     # Stop Nginx process and remove from memory
     - name: Stop Nginx to remove from memory
       become_user: root
       service: name=nginx state=stopped enabled=no
+      when: service_status.stat.exists
+
+    # Check that Gunicorn is installed
+    - name: Check if Service Gunicorn Exists
+      stat: path=/etc/init.d/gunicorn
+      register: service_status
 
     # Stop the gunicorn wsgi server and remove from memory.
     - name: Stop Gunicorn WSGI Server
       become_user: root
       service: name=gunicorn state=stopped enabled=no
+      when: service_status.stat.exists
 
+     # Check that Postgres is installed
+    - name: Check if Service Postgres Exists
+      stat: path=/etc/init.d/postgresql
+      register: service_status
 
     # Drop the postgres database before removing software components
     - name: Drop the Postgres database
       become_user: postgres
-      postgresql_db: name={{dbname}} state=absent
+      postgresql_db: name='{{dbname}}' state=absent
+      when: service_status.stat.exists
 
 
     # Remove required software components from our build server

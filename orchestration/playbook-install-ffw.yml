@@ -13,9 +13,11 @@
     environment_name : env_projectname
     project_root: ~/FreeFlowWines
     project_name: ffw_project
-    project_repo: https://github.com/nherriot/FreeFlowWines.git
+    project_repo: https://github.com/nherriot/FreeFlowWine.git
     django_settings: wine.settings
-    git_branch: producti
+    gunicorn_conf_file: 'host-vars/gunicorn.conf'
+    nginx_conf_file: 'host-vars/ffwecommerce'
+    git_branch: 'Phase-2'
 
   pre_tasks:
 
@@ -175,9 +177,8 @@
       become_user: root
       copy: src={{item.file_name}} dest={{item.destination_directory}} owner=root group=root mode="u=r,g=r,o=rw"
       with_items:
-        - { file_name: 'gunicorn.conf', destination_directory: '/etc/init' }
-        - { file_name: 'ffwecommerce', destination_directory: '/etc/nginx/sites-available' }
-
+        - { file_name: '{{gunicorn_conf_file}}', destination_directory: '/etc/init' }
+        - { file_name: '{{nginx_conf_file}}', destination_directory: '/etc/nginx/sites-available' }
 
     # Start the gunicorn wsgi server.
     - name: Start Gunicorn WSGI Server
@@ -202,7 +203,6 @@
     - name: Reload Nginx to enable the site main
       become_user: root
       service: name=nginx state=reloaded enabled=yes
-
 
     # Reload the gunicorn wsgi server.
     - name: Reload Gunicorn WSGI Server
