@@ -1,17 +1,21 @@
 ---
 - hosts: ffw-test
+  user: '{{adminuser}}'
   become: true
 
+  vars_files:
+    - vagrant-vars/vagrant_variables.yml
+
   vars:
-    dbname: ffw_db_17022016                                   # this is used to setup the database name in postgres
-    dbuser: ffw_db_user                                       # this is used to setup the database user in postres
-    dbpassword: IPq52llj                                      # this is used to setup the database password TODO put this in a keepass file
+    ansible_ssh_user: '{{adminuser}}'                         # We need to override this to use the admin user as
+                                                              # the root account will be locked by this point
     environment_path: /home/ffw_cms/ffwprojectenv             # this is the virtual environment project folder
     environment_name : env_projectname
     project_root: ~/FreeFlowWines
     project_name: ffw_project
     project_repo: https://github.com/nherriot/FreeFlowWines.git
     django_settings: wine.settings
+    git_branch: producti
 
   pre_tasks:
 
@@ -50,15 +54,15 @@
     # Setup Postgres Database on the system
     - name: Setup Postgres DB
       become_user: postgres
-      postgresql_db: name={{dbname}}
+      postgresql_db: name='{{dbname}}'
 
     - name: Setup Postgres User can Access DB
       become_user: postgres
-      postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+      postgresql_user: db='{{dbname}}' name='{{dbuser}}' password='{{dbpassword}}' priv=ALL
 
     - name: Ensure Postgres user does not have unnecessary privileges
       become_user: postgres
-      postgresql_user: name={{dbuser}} role_attr_flags=NOSUPERUSER,NOCREATEDB
+      postgresql_user: name='{{dbuser}}' role_attr_flags=NOSUPERUSER,NOCREATEDB
 
 
   tasks:
@@ -95,12 +99,12 @@
     # This set up postgres for the first time
     - name: Setup Postgres DB
       become_user: postgres
-      postgresql_db: name={{dbname}}
+      postgresql_db: name='{{dbname}}'
 
     - name: Setup Postgres User can Access DB
       become_user: postgres
-      postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
-      postgresql_user: name={{dbuser}} role_attr_flags=NOSUPERUSER,NOCREATEDB
+      postgresql_user: db='{{dbname}}' name='{{dbuser}}' password='{{dbpassword}}' priv=ALL
+      postgresql_user: name='{{dbuser}}' role_attr_flags=NOSUPERUSER,NOCREATEDB
 
 
     # Setup django and gunicorn wsgi server this has to install virtual env, then as the CMS user it then uses the PIP
@@ -120,7 +124,7 @@
       git:
         repo={{project_repo}}
         dest={{project_root}}
-        remote=origin version=master
+        remote=origin version={{git_branch}}
 
     # Give read and write permissions to the virtual environment path
     #- name: change permissions

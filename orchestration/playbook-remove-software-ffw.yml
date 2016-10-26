@@ -1,8 +1,14 @@
 ---
 - hosts: ffw-test
+  user: '{{adminuser}}'
   become: true
 
+  vars_files:
+    - vagrant-vars/vagrant_variables.yml
+
   vars:
+    ansible_ssh_user: '{{adminuser}}'                         # We need to override this to use the admin user as
+                                                              # the root account will be locked by this point
     dbname: ffw_db_17022016                                   # this is used to setup the database name in postgres
     dbuser: ffw_db_user                                       # this is used to setup the database user in postres
     dbpassword: IPq52llj                                      # this is used to setup the database password TODO put this in a keepass file
