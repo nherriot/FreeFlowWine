@@ -134,7 +134,7 @@
 
     # This installs all our packages from the requirements.txt file in our repository
     - name: Install dependencies into virtualenv (i.e. install requirements.txt)
-      become_user: ffw_cms
+      become_user: '{{cmsuser}}'
       action: pip requirements={{project_root}}/{{project_name}}/requirements.txt virtualenv={{environment_path}} state=present
 
     # Run the makemigrations on the insalled django app in 'django_dir'. This only migrates the initial django DB
