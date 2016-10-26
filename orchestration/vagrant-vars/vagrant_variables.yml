@@ -16,10 +16,6 @@ dbpassword: IPq52llj                                      # this is used to setu
 # Django variables to allow the provisioning, config and install of the django server
 environment_path: /home/ffw_cms/ffwprojectenv             # this is the virtual environment project folder
 environment_name : env_projectname
-project_root: ~/FreeFlowWines
-project_name: ffw_project
-project_repo: https://github.com/nherriot/FreeFlowWines.git
-django_settings: wine.settings
 
 # Elasticsearch Ansible Variables
 

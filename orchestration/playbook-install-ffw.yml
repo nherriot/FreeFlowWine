@@ -12,12 +12,12 @@
     environment_path: /home/ffw_cms/ffwprojectenv             # this is the virtual environment project folder
     environment_name : env_projectname
     project_root: ~/FreeFlowWines
-    project_name: ffw_project
+    project_name: ffwproject
     project_repo: https://github.com/nherriot/FreeFlowWine.git
     django_settings: wine.settings
     gunicorn_conf_file: 'host-vars/gunicorn.conf'
     nginx_conf_file: 'host-vars/ffwecommerce'
-    git_branch: 'Phase-2'
+    git_branch: production
 
   pre_tasks:
 
@@ -33,7 +33,7 @@
     # This restarts our nginx which servers requests for our web server
     # Reload Nginx to fully enable our site
     - name: Reload Nginx to enable the site
-      become_user: ffw_admin
+      become_user: '{{adminuser}}'
       service: name=nginx state=reloaded enabled=yes
 
     # This is our re-start. Same as start but start calls up the configure after it's started
@@ -112,17 +112,17 @@
     # Setup django and gunicorn wsgi server this has to install virtual env, then as the CMS user it then uses the PIP
     # module to create the virtual environment and the python version that will be used for this.
     - name: Install a virtual environment
-      become_user: ffw_cms
+      #become_user: '{{cmsuser}}'
       pip: name=virtualenv state=present
 
     - name: Create virtualenv with django installed in it as ffw_cms user
-      become_user: ffw_cms
+      become_user: '{{cmsuser}}'
       pip: name=django version=1.9.2 virtualenv={{environment_path}} virtualenv_python=python2.7
 
 
-    # likewise we can install all packages we need from git by taking our build straight from the master branch
-    - name: Clone project from git
-      become_user: ffw_cms
+    # We can install all packages we need from git by taking our build straight from the 'production' branch
+    - name: Clone project from git branch 'production'
+      become_user: '{{cmsuser}}'
       git:
         repo={{project_repo}}
         dest={{project_root}}

@@ -10,7 +10,7 @@ server {
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/ffw_cms/FreeFlowWines/ffw_project/ffwproject.sock;
+        proxy_pass http://unix:/home/ffw_cms/FreeFlowWines/ffwproject/ffwproject.sock;
     }
 
 }
