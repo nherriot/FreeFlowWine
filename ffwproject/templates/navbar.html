@@ -1,5 +1,11 @@
 {% load staticfiles %}
+{% load i18n %}
 
+<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+</script>
 
  <nav class="navbar navbar-default navbar-transparent navbar-fixed-top navbar-burger" role="navigation">
             <!-- if you want to keep the navbar hidden you can add this class to the navbar "navbar-burger"-->
@@ -36,25 +42,31 @@
                             </a>
 
                         </li>
-                        {% if user.is_staff and user.is_authenticated %}
-
-                        <li><a href="{% url 'auth_logout' %}?next=/accounts/logout/">Logout</a></li>
+                        {% if user.is_authenticated %}
                         <li>
-                            <a href="{% url 'cms:admin_page' %}" target="_blank" data-id="#setting">Setting</a>
+                            <a href="{% url 'auth_logout' %}" title="Logout">
+                                Logout
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li> 
+                          <a href="{% url 'home:setting' %}" title="Setting" target="_blank" >
+                            <i class="fa fa-tachometer" aria-hidden="true"></i> Setting</a>
+                        </li>
+                        {% else %}
+                        <li> 
+                            <a href="{% url 'auth_login' %}" title="" data-toggle="modal" data-target="#loginModal">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                Login
+                            </a>
                         </li>
                         
-                        {% else %}
-                        <li>
-                            <a href="{% url 'auth_login' %}" class="login">
-                            Login
-                                <i class="fa fa-user"></i>
+                        <li> 
+                            <a href="{% url 'registration_register' %}" data-toggle="modal" data-target="#registerModal">
+                                <i class="fa fa-registered" aria-hidden="true"></i>
+                                Register
                             </a>
                         </li>
-                        <!-- <li>
-                            <a href="{% url 'registration_register' %}" class="register">Register
-                                <i class="fa fa-registered"></i>
-                            </a>
-                        </li> -->
                         {% endif %}
                         <li>
                             <a href="" data-scroll="true" data-id="#whoWeAre">
@@ -101,3 +113,48 @@
                 <!-- /.navbar-collapse -->
             </div>
         </nav>
+
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Please Sign in</h4>
+      </div>
+      <div class="modal-body">
+        {% block login %}
+          
+        {% endblock %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+   
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Please register here!</h4>
+      </div>
+      <div class="modal-body">
+        {% block registeration %}
+          
+        {% endblock %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Register</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

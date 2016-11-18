@@ -1,4 +1,5 @@
 {% load staticfiles %}
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -12,7 +13,7 @@
 
         <!-- Canonical SEO -->
         <link rel="canonical" href="http://www.ffw.com"/>
-
+        
         <meta content="The most beautiful freebies, kits and website templates built for the bootstrap framework. A place for designers and developers." name="description" />
         <meta content="creativetim, creative tim, bootstrap, theme, freebies, bootstrap kit, bootstrap template, free items, beautiful ui, awesome freebies,  css cards,  bootstrap wizard,  bootstrap plugin" name="keywords" />
         <meta content="Free Flow Wine - Tools to build better websites" property="og:title" />
@@ -28,16 +29,20 @@
         <meta content="@CreativeTim" property="twitter:site" />
         <meta content="@CreativeTim" property="twitter:creator" />
 
+        {% block styles %}
+
         <link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet" />
         <link href="{% static 'assets/css/rubick_pres.css' %}" rel="stylesheet"/>
         <!--     Fonts and icons     -->
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
-        <link href="{% static 'assets/css/fonts/pe-icon-7-stroke.css' %}" rel="stylesheet">
-        <link href="{% static 'assets/css/fonts/Rubik-Fonts.css' %}" rel="stylesheet" />
-        <link href="{% static 'assets/css/fonts/assets_extra_style.css' %}" rel="stylesheet" />
-        <link href="{% static 'ffw/css/style.css' %}" rel="stylesheet" />
-        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+        <link href="{% static 'assets/css/pe-icon-7-stroke.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/Rubik-Fonts.css' %}" rel="stylesheet" />
+        <link href="{% static 'assets/css/assets_extra_style.css' %}" rel="stylesheet" />
 
+        <link href="{% static 'ffw/css/style.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+        
+        {% endblock %}
     </head>
     <body>
