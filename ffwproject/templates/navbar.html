@@ -50,12 +50,12 @@
                             </a>
                         </li>
                         <li> 
-                          <a href="{% url 'home:setting' %}" title="Setting" target="_blank" >
+                          <a href="{% url 'cms:admin_page' %}" title="Setting" target="_blank" >
                             <i class="fa fa-tachometer" aria-hidden="true"></i> Setting</a>
                         </li>
                         {% else %}
                         <li> 
-                            <a href="{% url 'auth_login' %}" title="" data-toggle="modal" data-target="#loginModal">
+                            <a href="{% url 'auth_login' %}" title="Login" data-toggle="modal" data-target="#loginModal">
                                 <i class="fa fa-sign-in" aria-hidden="true"></i>
                                 Login
                             </a>

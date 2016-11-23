@@ -5,6 +5,23 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block closescript %}
+<script>
+    function clode_window(){
+        if(confirm('Close Window?')) {
+            close();
+        }
+    }
+</script>
+<script>
+  function Exit() {
+     var x=confirm('Are You sure want to exit from login to reset password form?:');
+     if(x) window.close();
+   }
+</script>
+{% endblock %}
+
+
 
 {% block title %}{% endblock %}
 
@@ -25,11 +42,11 @@
     </form>
     <br/>
     <div class="footer" role="footer">
-        <a href="{% url 'auth_password_reset' %}" data-toggle="modal" data-target="#registerModal">
-            <button type="button" class="btn btn-primary btn-lg">{% trans "Reset it Password!" %}</button>
+        <a href="{% url 'auth_password_reset' %}" data-toggle="modal" data-target="#resetPasswordModal" onClick="Exit()">
+            <button type="button" class="btn btn-primary btn-lg" onclick="close_window();return false;">{% trans "Reset it Password!" %}</button>
         </a>
         <a href="{% url 'registration_register' %}" data-toggle="modal" data-target="#registerModal">
-            <button type="button" class="btn btn-primary btn-lg">
+            <button type="button" class="btn btn-primary btn-lg" ><!--  onClick="Exit()" -->
             {% trans "Register" %}
             </button>
         </a>
@@ -66,3 +83,24 @@ template context variables:
     request.META['SERVER_NAME']. For more on sites, see The
     "sites" framework.
 {% endcomment %}
+
+<!-- Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Please enter your email address to rest your password!</h4>
+      </div>
+      <div class="modal-body">
+        {% block resetpassword %}
+          
+        {% endblock %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Register</button>
+      </div>
+    </div>
+  </div>
+</div>
