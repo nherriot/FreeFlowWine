@@ -50,7 +50,7 @@
                             </a>
                         </li>
                         <li> 
-                          <a href="{% url 'home:setting' %}" title="Setting" target="_blank" >
+                          <a href="{% url 'cms:admin_page' %}" title="Setting" target="_blank" >
                             <i class="fa fa-tachometer" aria-hidden="true"></i> Setting</a>
                         </li>
                         {% else %}
@@ -62,7 +62,7 @@
                         </li>
                         
                         <li> 
-                            <a href="{% url 'registration_register' %}" data-toggle="modal" data-target="#registerModal">
+                            <a href="{# url 'cms:dashboard_page' #}" data-toggle="modal" data-target="#registerModal">
                                 <i class="fa fa-registered" aria-hidden="true"></i>
                                 Register
                             </a>
@@ -145,9 +145,9 @@
         <h4 class="modal-title" id="myModalLabel">Please register here!</h4>
       </div>
       <div class="modal-body">
-        {% block registeration %}
+        {# block registeration #}
           
-        {% endblock %}
+        {# endblock #}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
