@@ -7,5 +7,6 @@ from cms.views import index_page, dashboard_page
 
 urlpatterns = [
     url('^$', index_page, name='index'),
+    url(r'^depict$', dashboard_page, name="shit"),
   	url('^dashboard/$', dashboard_page, name='admin_page'),  
 ]
