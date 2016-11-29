@@ -71,12 +71,12 @@ class NewUserTestCase(TestCase):
     def setUp(self):
         self.client = Client()
 
-        
+
     def test_view_catalog(self):
         print "We are viewing a 'catalog' stored in the database"
 
         # Lets fetch values from our model first that we wish to check
-        category = Category.active.all()[0]
+        category = Category.objects.all()[0]
         category_url = category.get_absolute_url()
 
         # Lets test the loading of our category page
