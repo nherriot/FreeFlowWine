@@ -1,0 +1,86 @@
+[
+{
+  "model": "catalog.category",
+  "pk": 1,
+  "fields": {
+    "name": "test",
+    "slug": "test",
+    "description": "This is a test category",
+    "is_active": true,
+    "meta_keywords": "test",
+    "meta_descriptions": "test category",
+    "created_at": "2016-11-29T12:30:02.981Z",
+    "updated_at": "2016-11-29T12:30:02.981Z"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 3,
+  "fields": {
+    "name": "white wine",
+    "slug": "white-wine",
+    "description": "Category for white wine",
+    "is_active": true,
+    "meta_keywords": "white, wine",
+    "meta_descriptions": "white wines",
+    "created_at": "2016-11-29T15:24:27.969Z",
+    "updated_at": "2016-11-29T15:25:10.707Z"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 4,
+  "fields": {
+    "name": "red wine",
+    "slug": "red-wine",
+    "description": "Red wine category",
+    "is_active": true,
+    "meta_keywords": "red, wine",
+    "meta_descriptions": "red wnes",
+    "created_at": "2016-11-29T15:24:59.864Z",
+    "updated_at": "2016-11-29T15:24:59.864Z"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 5,
+  "fields": {
+    "name": "brutt",
+    "slug": "brutt",
+    "description": "dry fizzy wine",
+    "is_active": true,
+    "meta_keywords": "fizzy, dry, white, wine, carbonated",
+    "meta_descriptions": "Low surger content fizzy white wine.",
+    "created_at": "2016-11-29T15:26:11.753Z",
+    "updated_at": "2016-11-29T15:26:11.753Z"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 6,
+  "fields": {
+    "name": "prosecco",
+    "slug": "prosecco",
+    "description": "A medium sweet fizzy carbonated white wine",
+    "is_active": true,
+    "meta_keywords": "fizzy, medium, white, wine, carbonated",
+    "meta_descriptions": "Medium surger content fizzy white wine.",
+    "created_at": "2016-11-29T15:27:12.494Z",
+    "updated_at": "2016-11-29T15:27:12.494Z"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 7,
+  "fields": {
+    "name": "Champange",
+    "slug": "champange",
+    "description": "A medium dry white self carbonated white wine from a distinct region in France",
+    "is_active": true,
+    "meta_keywords": "french, fizzy, medium-sweet, carbonated, white, wine, champange",
+    "meta_descriptions": "A medium-sweet self carbonated white wine. Origin French",
+    "created_at": "2016-11-29T15:28:48.414Z",
+    "updated_at": "2016-11-29T15:28:48.414Z"
+  }
+}
+]
