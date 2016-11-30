@@ -42,7 +42,11 @@
                             </a>
 
                         </li>
-                        {% if user.is_authenticated %}
+
+                        <!-- If you are logged in you should not display the login page when you change your page to login page again because you are already loggedin --> 
+                        {% if request.user.is_authenticated and not '/accounts/login' in request.get_full_path %}
+                        <!--  -->
+                        {# if request.user.is_authenticated #}
                         <li>
                             <a href="{% url 'auth_logout' %}" title="Logout">
                                 Logout
@@ -62,7 +66,7 @@
                         </li>
                         
                         <li> 
-                            <a href="{# url 'cms:dashboard_page' #}" data-toggle="modal" data-target="#registerModal">
+                            <a href="{% url 'registration_register' %}" data-toggle="modal" data-target="#registerModal">
                                 <i class="fa fa-registered" aria-hidden="true"></i>
                                 Register
                             </a>

@@ -1,4 +1,7 @@
+
+{# extends "../base.html" #}
 {# extends "registration/registration_base.html" #}
+
 {% load staticfiles %}
 {% load i18n %}
 {% load crispy_forms_tags %}
@@ -37,3 +40,24 @@ the following context:
     <http://docs.djangoproject.com/en/dev/topics/forms/>`_ for
     information on how to display this in a template.
 {% endcomment %}
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Please register here!</h4>
+      </div>
+      <div class="modal-body">
+        {# block registeration #}
+          
+        {# endblock #}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Register</button>
+      </div>
+    </div>
+  </div>
+</div>

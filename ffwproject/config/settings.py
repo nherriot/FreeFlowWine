@@ -32,16 +32,16 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'bootstrap_toolkit',
     'cms',
     'crispy_forms',
-    
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +139,10 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media-cdn')
 
+
+# crispy forms tags settings
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 # If True, users can register
 REGISTRATION_OPEN = True
 
@@ -156,5 +160,3 @@ LOGIN_REDIRECT_URL = '/'
 # and are trying to access pages requiring authentication
 LOGIN_URL = '/accounts/login/'
 
-# crispy forms tags settings
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
