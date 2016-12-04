@@ -11,11 +11,22 @@
             <!-- if you want to keep the navbar hidden you can add this class to the navbar "navbar-burger"-->
             <div class="container">
                 <div class="navbar-header">
+                    <!-- The user login is here for test at this moment ir need to be change in the future to make much better than now -->
+                    <div class="login pull-right" style="color: #fff; padding-top: 20px; padding: 20px;">
+                        {% if request.user.is_authenticated %}
+                            HI {% if request.user.first_name %}
+                                        {{request.user.first_name.upper}}
+                                    {% else %}
+                                        {{request.user.username.upper}}
+                                    {% endif %}!
+                        {% else %}
+                        {% endif %}
+                    </div>
                     <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar bar1"></span>
-                    <span class="icon-bar bar2"></span>
-                    <span class="icon-bar bar3"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
                     </button>
                     <a href="/" class="navbar-brand title">
                         <img src="{% static 'ffw/images/freeflowwinelogo_negative.png' %}" class='ffw-logo img-responsive'>
@@ -66,7 +77,8 @@
                         </li>
                         
                         <li> 
-                            <a href="{% url 'registration_register' %}" data-toggle="modal" data-target="#registerModal">
+                            <a href="{% url 'registration_register' %}" >
+                            <!-- data-toggle="modal" data-target="#registerModal" -->
                                 <i class="fa fa-registered" aria-hidden="true"></i>
                                 Register
                             </a>
@@ -120,7 +132,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -138,10 +150,10 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -159,6 +171,6 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 

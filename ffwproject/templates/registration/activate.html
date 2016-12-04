@@ -1,11 +1,21 @@
-{% extends "registration/registration_base.html" %}
+{# extends "registration/registration_base.html" #}
+
+{% extends "base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Activation Failure" %}{% endblock %}
 
-{% block content %}
-<p>{% trans "Account activation failed." %}</p>
-{% endblock %}
+<div class="container">
+	{% block content %}
+	<div class="row">
+		<div class="col-md-8">
+
+			<p>{% trans "Account activation failed." %}</p>
+
+		</div>
+	</div>
+	{% endblock %}	
+</div>
 
 
 {% comment %}

@@ -1,15 +1,36 @@
 
 {% extends 'base.html' %}
-{% include 'carousel.html' %}
+
+
+{% block carousel %}
+	{% include 'carousel.html' %}
+{% endblock carousel %}
 
 {% block content %}
 
-<h2>About Creative Tim</h2>
+<h2>Free Flow Wines</h2>
 <div class="separator-container">
     <div class="separator line-separator">∎</div>
 </div>
-<p class="lead">
-    Creative Tim is a startup that creates design tools that make the web development process faster and easier. We love the web and care deeply for how users interact with a digital product. We power businesses and individuals to create better looking web projects around the world.
-</p>
+<div class="col-md-">
+	<p class="lead">
+    At Free Flow Wines, we believe that a wine should taste exactly as the winemaker intended. Besides maintaining superior wine quality, wine on tap in stainless steel kegs reduces the cost of traditional bottle packaging and transportation. By eliminating this packaging (bottles, corks, capsules, labels and cases), there is a lot less to ship and recycle, lowering the carbon footprint of the wine and hospitality industries.
+	</p>
+</div>
+<div class="col-md-5">
+	<video autobuffer autoloop loop controls>
+		<source src="/media/video.oga">
+		<source src="/media/video.m4v">
+		<object type="video/ogg" data="/media/video.oga" width="320" height="240">
+		<param name="src" value="/media/video.oga">
+		<param name="autoplay" value="false">
+		<param name="autoStart" value="0">
+		<p><a href="https://vimeo.com/38440944">Download this video file.</a></p>
+		</object>
+	</video>
+</div>
+
+
+
 
 {% endblock %}

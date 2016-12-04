@@ -1,0 +1,16 @@
+{% extends "../base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+
+ {% if request.user.is_authenticated %}
+    HI {% if request.user.first_name %}
+                {{request.user.first_name.upper}}
+            {% else %}
+                {{request.user.username.upper}}
+            {% endif %}!
+{% else %}
+{% endif %}
+
+{% endblock %}

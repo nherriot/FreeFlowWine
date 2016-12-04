@@ -20,9 +20,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'', include('cms.urls', namespace='cms')),
-    
+    url(r'', include('account.urls', namespace='accounts')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
 ]
 
 

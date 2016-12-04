@@ -3,9 +3,13 @@
 
 {% block title %}{% trans "Activation email sent" %}{% endblock %}
 
-{% block content %}
-<p>{% trans "Please check your email to complete the registration process." %}</p>
-{% endblock %}
+<div class="container">
+	{% block content %}
+	<div class="col-md-7">
+		<p>{% trans "Please check your email to complete the registration process. You should receive activation key shortly." %}</p>
+	</div>
+	{% endblock %}
+</div>
 
 
 {% comment %}

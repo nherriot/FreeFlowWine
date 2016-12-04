@@ -32,13 +32,14 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'bootstrap_toolkit',
+    'account',
     'cms',
     'crispy_forms',
     'registration',
@@ -55,6 +56,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+WSGI_APPLICATION = 'config.wsgi.application'
+# Email Settings
+EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST          = 'smtp.gmail.com'
+EMAIL_HOST_USER     = 'dilshad.a73@gmail.com'
+EMAIL_HOST_PASSWORD = '_Abbey_1973/...'
+EMAIL_POST          = 587
+EMAIL_USE_TLS       = True
+DEFAULT_FROM_EMAIL  = 'dilshad.a73@gmail.com' 
+SERVER_EMAIL        = 'dilshad.a73@gmail.com'
 
 TEMPLATES = [
     {
@@ -73,6 +85,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+# Email Settings
+EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST          = 'smtp.gmail.com'
+EMAIL_HOST_USER     = 'dilshad.a73@gmail.com'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_POST          = 587
+EMAIL_USE_TLS       = True
+DEFAULT_FROM_EMAIL  = 'dilshad.a73@gmail.com' 
+SERVER_EMAIL        = 'dilshad.a73@gmail.com'
 
 
 # Database
@@ -143,12 +164,12 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media-cdn')
 # crispy forms tags settings
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
+
+# Registration
 # If True, users can register
 REGISTRATION_OPEN = True
-
 # One-week activation window; you may, of course, use a different value
 ACCOUNT_ACTIVATION_DAYS = 7
-
 # If True, the user will be automatically logged in.
 REGISTRATION_AUTO_LOGIN = True
 
