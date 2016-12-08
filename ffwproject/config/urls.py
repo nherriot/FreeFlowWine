@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'', include('cms.urls', namespace='cms')),
+    url(r'', include('catalog.urls', namespace='catalog')),
     url(r'^admin/', admin.site.urls),
 ]
 
