@@ -19,10 +19,13 @@ from django.contrib import admin
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'', include('cms.urls', namespace='cms')),
-    url(r'', include('account.urls', namespace='accounts')),
-    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', admin.site.urls),
+    
+    url(r'', include('cms.urls', namespace='cms')),
+    url(r'account/', include('account.urls', namespace='account')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
+   
+    
 ]
 
 

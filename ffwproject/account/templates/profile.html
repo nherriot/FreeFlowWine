@@ -1,0 +1,29 @@
+{% extends "admin_dashboard.html" %} 
+
+{% load staticfiles %} 
+{% load i18n %} 
+
+
+{% block content %} 
+	
+	<h3> {% trans 'Profile' %} {{user|title}}'s</h3>
+	
+		{% for obj in objects %}			
+			<b>First Name:</b> {{obj.first_name}}<br/>
+			<b>Surname Name:</b> {{obj.last_name}}<br/>
+			<b>Address:</b> {{obj.address}}<br/>
+			<b>Address 1:</b> {{obj.addres_1}}<br/>
+			<b>City:</b> {{obj.city}}<br/>
+			<b>Post Code:</b> {{obj.post_code}}<br/>
+			<b>Photo:</b> <img src="{{MEDIA_URL}}{{obj.image}}"><br/>
+			<b>Bio:</b> {{obj.bio}}<br/>
+		
+			<b>Date:</b> <small>{{today|date}}</small>
+		{% endfor %}
+		<br>
+
+		<a href="{% url 'account:update_profile' slug=slug %}" title="Update"  class="btn btn-primary">Update</a>
+		<a href="{% url 'account:delete_profile' slug=slug %}" title="Delete"  class="btn btn-danger">Delete</a>
+		
+{% endblock %}
+

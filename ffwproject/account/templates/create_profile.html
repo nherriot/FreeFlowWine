@@ -1,0 +1,26 @@
+{% extends "admin_dashboard.html" %} 
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% load i18n %} 
+
+
+
+{% block content %} 
+	
+	<h3>{% trans ' Create Profile' %}</h3>
+	<i>{{today|date:'D d M Y f a'}}</i>
+	
+	<form method="GET" action="">
+		{%csrf_token %}
+
+		{{form|crispy}}
+
+		<input type="submit" class="btn btn-primary" name="" value="Save">
+	</form>
+			
+			
+		
+{% endblock %}
+

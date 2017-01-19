@@ -3,11 +3,12 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def index_page(request):
+def index_view(request):
     context = {}
     return render(request, 'index.html', context)
 
 
-def dashboard_page(request):
+
+def dashboard_view(request):
     context = {}
-    return render(request, '../templates/backend/admin_dashboard.html', context)
+    return render(request, 'admin_dashboard.html', context)

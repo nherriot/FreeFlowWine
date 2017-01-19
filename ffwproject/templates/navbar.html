@@ -13,14 +13,24 @@
                 <div class="navbar-header">
                     <!-- The user login is here for test at this moment ir need to be change in the future to make much better than now -->
                     <div class="login pull-right" style="color: #fff; padding-top: 20px; padding: 20px;">
-                        {% if request.user.is_authenticated %}
-                            HI {% if request.user.first_name %}
-                                        {{request.user.first_name.upper}}
-                                    {% else %}
-                                        {{request.user.username.upper}}
-                                    {% endif %}!
-                        {% else %}
-                        {% endif %}
+                        <ul>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                {% if request.user.is_authenticated %}
+                                    HI {% if request.user.first_name %}
+                                            {{request.user.first_name.upper}}
+                                        {% else %}
+                                            {{request.user.username.upper}}
+                                        {% endif %}!
+                                {% else %}
+                                {% endif %} <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="" title="">Change Password</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
                     </div>
                     <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example">
                         <span class="sr-only">Toggle navigation</span>
@@ -70,7 +80,8 @@
                         </li>
                         {% else %}
                         <li> 
-                            <a href="{% url 'auth_login' %}" title="Login" data-toggle="modal" data-target="#loginModal">
+                            <a href="{% url 'auth_login' %}" title="Login" >
+                                <!-- data-toggle="modal" data-target="#loginModal" -->
                                 <i class="fa fa-sign-in" aria-hidden="true"></i>
                                 Login
                             </a>

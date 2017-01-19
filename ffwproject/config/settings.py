@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'bootstrap_toolkit',
-    'account',
-    'cms',
+    'account.apps.AccountConfig',
+    'cms.apps.CmsConfig',
     'crispy_forms',
+    # 'django_markdown',
     'registration',
 ]
 
@@ -68,6 +69,8 @@ EMAIL_USE_TLS       = True
 DEFAULT_FROM_EMAIL  = 'dilshad.a73@gmail.com' 
 SERVER_EMAIL        = 'dilshad.a73@gmail.com'
 
+# MARKDOWN_EDITOR_SKIN = 'simple'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -83,18 +86,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'config.wsgi.application'
-# Email Settings
-EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST          = 'smtp.gmail.com'
-EMAIL_HOST_USER     = 'dilshad.a73@gmail.com'
-EMAIL_HOST_PASSWORD = 'admin1234'
-EMAIL_POST          = 587
-EMAIL_USE_TLS       = True
-DEFAULT_FROM_EMAIL  = 'dilshad.a73@gmail.com' 
-SERVER_EMAIL        = 'dilshad.a73@gmail.com'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -138,6 +129,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+)
 
 
 # Static files (CSS, JavaScript, Images)

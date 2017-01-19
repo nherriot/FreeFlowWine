@@ -1,56 +1,47 @@
 {# extends "registration/registration_base.html" #}
 
 
-{# extends "base.html" #}
+{% extends "base.html" %} 
 
-{% block styles %}{% endblock %}
+{% load staticfiles %} 
+{% block styles %}{% endblock %} 
 
-{% load staticfiles %}
-{% load i18n %}
+
+
+{% load i18n %} 
+
 {% load crispy_forms_tags %}
-
-{% block closescript %}
-<script>
-    function clode_window(){
-        if(confirm('Close Window?')) {
-            close();
-        }
-    }
-</script>
-<script>
-  function Exit() {
-     var x=confirm('Are You sure want to exit from login to reset password form?:');
-     if(x) window.close();
-   }
-</script>
-{% endblock %}
-
-
 
 {% block title %}{% endblock %}
 
+
+
 <div class="container">
 
-{% block login %}
+{% block content %}
     
-<div class="col-md-6">
+<div class="col-md-6 col-md-offset-3">
     <h3 class="login-title">{% trans "Log in" %}</h3>
 
     <form method="POST" class="form-signin" action="{% url 'auth_login' %}">{% csrf_token %}
 
         {{ form|crispy }}
-        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary pull-right" value="{% trans 'Log in' %}" />
+        <span class="">
+        <button type="button" class="btn btn-info" >Close</button>  
+        <input type="submit" class="btn btn-primary" value="{% trans 'Log in' %}" />
         <input type="hidden" name="next" value="{{ next }}" />
+        </span><br>
        
     </form>
     <br/>
     <div class="footer" role="footer">
-        <a href="{% url 'auth_password_reset' %}" data-toggle="modal" data-target="#resetPasswordModal" onClick="Exit()">
-            <button type="button" class="btn btn-primary btn-lg" onclick="close_window();return false;">{% trans "Reset it Password!" %}</button>
+         
+        <a href="{% url 'auth_password_reset' %}">
+            <button type="button" class="btn btn-primary btn-md" >{% trans "Reset it Password!" %}</button>
+           
         </a>
-        <a href="{% url 'registration_register' %}" data-toggle="modal" data-target="#registerModal">
-            <button type="button" class="btn btn-primary btn-lg" ><!--  onClick="Exit()" -->
+        <a href="{% url 'registration_register' %}">    
+            <button type="button" class="btn btn-primary btn-md" >
             {% trans "Register" %}
             </button>
         </a>
@@ -88,23 +79,4 @@ template context variables:
     "sites" framework.
 {% endcomment %}
 
-<!-- Modal -->
-<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Please enter your email address to rest your password!</h4>
-      </div>
-      <div class="modal-body">
-        {% block resetpassword %}
-          
-        {% endblock %}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Register</button>
-      </div>
-    </div>
-  </div>
-</div>
+
