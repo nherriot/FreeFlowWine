@@ -22,8 +22,8 @@
 		{% endfor %}
 		<br>
 
-		<a href="{% url 'account:update_profile' slug=slug %}" title="Update"  class="btn btn-primary">Update</a>
-		<a href="{% url 'account:delete_profile' slug=slug %}" title="Delete"  class="btn btn-danger">Delete</a>
+		<a href="{# url 'account:update_profile' slug=slug #}" title="Update"  class="btn btn-primary">Update</a>
+		<a href="{# url 'account:delete_profile' slug=slug /}" title="Delete"  class="btn btn-danger">Delete</a>
 		
 {% endblock %}
 

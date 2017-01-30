@@ -11,4 +11,4 @@ def index_view(request):
 
 def dashboard_view(request):
     context = {}
-    return render(request, 'admin_dashboard.html', context)
+    return render(request, '../templates/admin_dashboard.html', context)

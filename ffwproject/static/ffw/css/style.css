@@ -5,6 +5,11 @@
 img.ffw-logo.img-responsive {
 	margin-top: -30px;
 	color: #fff;
+	margin-bottom: 20px;
+}
+
+ul li.dropdown {
+	display: inline-block;
 }
 
 nav.navbar.navbar-default.navbar-fixed-top.navbar-burger {
