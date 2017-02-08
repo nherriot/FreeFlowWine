@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalog',
+    'catalog',                              # this contains product and categories models for our ecommerce platform
     'cms',
     'crispy_forms',
     'registration',
+    'util',                                 # this contains our SEO utilities and functionality that exists across the whole platform
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'util.context_processors.ecomstore',
             ],
         },
     },
@@ -149,4 +151,12 @@ LOGIN_REDIRECT_URL = '/'
 
 # crispy forms tags settings
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+# SEO settings for Free Flow Wine used in auto page generation for SKU's, products, and category pages.
+
+SITE_NAME = 'Free Flow Wines'
+META_KEYWORDS = 'Wine, freeflow, cask, red, white'
+META_DESCRIPTION = 'Freeflow Wines is an online supplier of bottling wine into alloy barrels'
+
 

@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+{% extends "catalog.html"}
+
+{% block content %}
+    <h1> Welcome to FreeFlowWines Category Page </h1>
+    {{ c.descripton }}
+    <br /><br />
+    {% for p in products %}
+        <div class="product_thumbnail">
+            <a href="{{ p.get_absolute_url }}">
+                <img src="{{ MEDIA_URL }}images/products/thumbnails/{{p.image}}" alt="{{ p.name }}" class="bn" />
+                <br />
+                {{ p.name}}
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% include 'footer.html' %}
+

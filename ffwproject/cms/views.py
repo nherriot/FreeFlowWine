@@ -6,6 +6,7 @@ from django.urls import reverse
 
 
 def index_page(request):
+    print "starting index page"
     context = {}
     return render(request, 'index.html', context)
 
